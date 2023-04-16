@@ -1,0 +1,39 @@
+class Solution:
+    
+    #Function to convert an infix expression to a postfix expression.
+    def InfixtoPostfix(self, exp):
+        #code here
+        output = []
+        operator = []
+        priority = {'(': 0, '+': 1, '-': 1, '*': 2, '/': 2, '^': 3}
+        # exp = input("Enter the Infix Expression : ")
+        for ch in exp:
+            if ch == '(':
+                operator.append(ch)
+        
+            elif ch == ')':
+                while operator[-1] != '(':
+                    ele = operator.pop()
+                    output.append(ele)
+        
+                operator.pop()  #for removing '('
+        
+            elif ch == '+' or ch == '-' or ch == '*' or ch == '/' or ch == '^':
+                if len(operator) > 0:
+                    while priority[operator[-1]] >= priority[ch]:
+                        ele = operator.pop()
+                        output.append(ele)
+                        if len(operator) == 0: #when operator is empty
+                            break
+        
+                operator.append(ch)
+        
+            else:
+                output.append(ch)
+        
+        
+        while len(operator) != 0:
+            ele = operator.pop()
+            output.append(ele)
+        
+        return ''.join(output)
